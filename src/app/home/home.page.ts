@@ -20,22 +20,29 @@ import { Haptics } from '@capacitor/haptics';
     IonContent
   ]
 })
+
 export class HomePage implements OnInit, OnDestroy {
 
   diceNumber = 1;
+
+  x = 0;
+  y = 0;
+  z = 0;
 
   async ngOnInit() {
 
     await Motion.addListener('accel', event => {
 
-      const x = event.acceleration.x ?? 0;
-      const y = event.acceleration.y ?? 0;
-      const z = event.acceleration.z ?? 0;
+      this.x = event.acceleration.x ?? 0;
+      this.y = event.acceleration.y ?? 0;
+      this.z = event.acceleration.z ?? 0;
+
+      console.log(this.x, this.y, this.z);
 
       if (
-        Math.abs(x) > 5 ||
-        Math.abs(y) > 5 ||
-        Math.abs(z) > 5
+        Math.abs(this.x) > 3 ||
+        Math.abs(this.y) > 3 ||
+        Math.abs(this.z) > 3
       ) {
         this.changeDice();
       }
@@ -45,16 +52,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async changeDice() {
-
-    this.diceNumber =
-      Math.floor(Math.random() * 6) + 1;
+    this.diceNumber = Math.floor(Math.random() * 6) + 1;
 
     await Haptics.vibrate();
-
   }
 
   ngOnDestroy() {
     Motion.removeAllListeners();
   }
-
 }

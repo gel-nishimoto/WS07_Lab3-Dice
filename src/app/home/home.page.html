@@ -8,9 +8,13 @@
 
   <div class="dice-container">
 
-    <div class="dice">
+    <div class="dice" (click)="changeDice()">
       {{ diceNumber }}
     </div>
+
+    <p>X: {{ x }}</p>
+    <p>Y: {{ y }}</p>
+    <p>Z: {{ z }}</p>
 
   </div>
 
